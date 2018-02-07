@@ -3091,3 +3091,13 @@ Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
+
+[Unit280]
+FileName=src\lua_spritelib.c
+CompileCpp=0
+Folder=LUA
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
