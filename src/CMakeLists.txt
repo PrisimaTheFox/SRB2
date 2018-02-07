@@ -241,6 +241,7 @@ if(${SRB2_CONFIG_HAVE_BLUA})
 		lua_playerlib.c
 		lua_script.c
 		lua_skinlib.c
+		lua_spritelib.c
 		lua_thinkerlib.c
 	)
 	set(SRB2_LUA_HEADERS
