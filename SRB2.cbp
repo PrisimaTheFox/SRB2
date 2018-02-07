@@ -1550,6 +1550,9 @@ HW3SOUND for 3D hardware sound  support
 		<Unit filename="src/lua_skinlib.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/lua_spritelib.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/lua_thinkerlib.c">
 			<Option compilerVar="CC" />
 		</Unit>
