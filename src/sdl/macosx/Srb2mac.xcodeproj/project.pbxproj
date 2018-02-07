@@ -98,6 +98,7 @@
 		1E66921D0B690C6B00B7313A /* SDL_mixer.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 1E66921B0B690C5B00B7313A /* SDL_mixer.framework */; };
 		67259DFD18D2687D00F02971 /* lua_hudlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 67259DFB18D2687D00F02971 /* lua_hudlib.c */; };
 		67259DFE18D2687D00F02971 /* lua_skinlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 67259DFC18D2687D00F02971 /* lua_skinlib.c */; };
+		67259DFF18D2687D00F02971 /* lua_spritelib.c in Sources */ = {isa = PBXBuildFile; fileRef = 67259DFD18D2687D00F02971 /* lua_spritelib.c */; };
 		67259E0118D268AE00F02971 /* m_anigif.c in Sources */ = {isa = PBXBuildFile; fileRef = 67259DFF18D268AE00F02971 /* m_anigif.c */; };
 		67259E0618D268F700F02971 /* i_ttf.c in Sources */ = {isa = PBXBuildFile; fileRef = 67259E0218D268F600F02971 /* i_ttf.c */; };
 		67259E0718D268F700F02971 /* mixer_sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 67259E0418D268F600F02971 /* mixer_sound.c */; };
@@ -369,6 +370,7 @@
 		67259DFA18D2687D00F02971 /* lua_hud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lua_hud.h; path = ../../lua_hud.h; sourceTree = SOURCE_ROOT; };
 		67259DFB18D2687D00F02971 /* lua_hudlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lua_hudlib.c; path = ../../lua_hudlib.c; sourceTree = SOURCE_ROOT; };
 		67259DFC18D2687D00F02971 /* lua_skinlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lua_skinlib.c; path = ../../lua_skinlib.c; sourceTree = SOURCE_ROOT; };
+		67259DFD18D2687D00F02971 /* lua_spritelib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lua_spritelib.c; path = ../../lua_spritelib.c; sourceTree = SOURCE_ROOT; };
 		67259DFF18D268AE00F02971 /* m_anigif.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = m_anigif.c; path = ../../m_anigif.c; sourceTree = SOURCE_ROOT; };
 		67259E0018D268AE00F02971 /* m_anigif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_anigif.h; path = ../../m_anigif.h; sourceTree = SOURCE_ROOT; };
 		67259E0218D268F600F02971 /* i_ttf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = i_ttf.c; path = ../i_ttf.c; sourceTree = SOURCE_ROOT; };
@@ -887,6 +889,7 @@
 				67259DFA18D2687D00F02971 /* lua_hud.h */,
 				67259DFB18D2687D00F02971 /* lua_hudlib.c */,
 				67259DFC18D2687D00F02971 /* lua_skinlib.c */,
+				67259DFD18D2687D00F02971 /* lua_spritelib.c */,
 				67B83C2C14F57F1500AAAE4E /* fastcmp.h */,
 				67B83C1514F57EE600AAAE4E /* lua_baselib.c */,
 				67B83C1614F57EE600AAAE4E /* lua_consolelib.c */,
@@ -1190,6 +1193,7 @@
 				67B83C3314F57F1500AAAE4E /* m_cond.c in Sources */,
 				67259DFD18D2687D00F02971 /* lua_hudlib.c in Sources */,
 				67259DFE18D2687D00F02971 /* lua_skinlib.c in Sources */,
+				67259DFF18D2687D00F02971 /* lua_spritelib.c in Sources */,
 				67259E0118D268AE00F02971 /* m_anigif.c in Sources */,
 				67259E0618D268F700F02971 /* i_ttf.c in Sources */,
 				67259E0718D268F700F02971 /* mixer_sound.c in Sources */,
