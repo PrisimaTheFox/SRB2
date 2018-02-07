@@ -4708,6 +4708,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lua_spritelib.c"
+				>
+			</File>
+			<File
 				RelativePath="..\lua_thinkerlib.c"
 				>
 			</File>
