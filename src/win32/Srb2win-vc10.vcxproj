@@ -141,6 +141,7 @@
     <ClCompile Include="..\lua_playerlib.c" />
     <ClCompile Include="..\lua_script.c" />
     <ClCompile Include="..\lua_skinlib.c" />
+    <ClCompile Include="..\lua_spritelib.c" />
     <ClCompile Include="..\lua_thinkerlib.c" />
     <ClCompile Include="..\lzf.c" />
     <ClCompile Include="..\md5.c" />
