@@ -43,7 +43,8 @@ enum hook {
 	hook_PlayerMsg,
 	hook_HurtMsg,
 	hook_PlayerSpawn,
-
+	hook_DrawSprite,
+	
 	hook_MAX // last hook
 };
 extern const char *const hookNames[];
@@ -77,5 +78,6 @@ boolean LUAh_LinedefExecute(line_t *line, mobj_t *mo, sector_t *sector); // Hook
 boolean LUAh_PlayerMsg(int source, int target, int flags, char *msg); // Hook for chat messages
 boolean LUAh_HurtMsg(player_t *player, mobj_t *inflictor, mobj_t *source); // Hook for hurt messages
 #define LUAh_PlayerSpawn(player) LUAh_PlayerHook(player, hook_PlayerSpawn) // Hook for G_SpawnPlayer
+void LUAh_DrawSprite(luasprite_t *luasprite);	//Hook for R_ProjectSprite (and OpenGL soon maybe)
 
 #endif
