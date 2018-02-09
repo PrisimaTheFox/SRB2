@@ -13,11 +13,12 @@
 #include "doomdef.h"
 
 #ifdef HAVE_BLUA
-//#ifdef ABCDEFG
+
 #include "lua_script.h"
 #include "lua_libs.h"
-#include "r_local.h"
+#include "r_defs.h"
 #include "p_mobj.h"
+#include "fastcmp.h"
 
 //Cyan pixel represents transparency
 #define TRANSPARENTPIXEL 247
@@ -150,6 +151,33 @@ static int luasprite_get(lua_State *L)
 
 //Decompose the compressed sprite data into a Lua table
 static void LUA_SetSpriteData(lua_State *L, luasprite_t *luasprite) {
+	//Width and height of sprite
+	int height = 0;
+	//Width is the number of elements (columns) in the table
+	int width = lua_objlen(L, -1);
+	
+	//Calculate the width and height
+	//The Lua table is in position -1
+	for (int i=0; i<width; i++) {
+		//`lua_rawgeti(L, index, n)` pushes the value of
+		//{table at index}[n] onto the top of the stack.
+		//Position -1 will be the actual column table
+		//Position -2 will be the parent table
+		lua_rawgeti(L, -1, i);
+		
+		//Make the height equal to the number
+		//of elements only if this value is a table
+		int thisheight = 1;
+		if (lua_istable(L, -1))
+			thisheight = lua_objlen(L, -1);
+		height = height < thisheight ? thisheight : height;
+		
+		//Remove the value from the stack
+		lua_pop(L, 1);
+	}
+	//Clear the data
+	memset(luasprite->data, 0, sizeof(luasprite->data));
+	
 	//First item in the stack must be the
 	//key that you start iterating with.
 	//Strangely, the first key is nil, so
@@ -157,6 +185,9 @@ static void LUA_SetSpriteData(lua_State *L, luasprite_t *luasprite) {
 	//The original table that we're iterating through
 	//is now in position -2.
 	lua_pushnil(L);
+	
+	//Current position in the data strip
+	int cpos = 0;
 	
 	//Now we iterate through the table (in position -2)
 	//until we reach the end, which is when
@@ -167,10 +198,18 @@ static void LUA_SetSpriteData(lua_State *L, luasprite_t *luasprite) {
 		// ----------------------
 		// `lua_next` pushes the value at the table's
 		// [key] position the top of the stack, so now:
-		// Position -1: Value
+		// Position -1: Value (this column table)
 		// Position -2: Key
 		// Position -3: Original table
 		// ----------------------
+		
+		//This value must be a table
+		if (!lua_istable(L, -1)) {
+			//Pop the first value (this column table); leave the key
+			lua_pop(L, 1);
+			cpos += height;
+			continue;
+		}
 		
 		//First item in the stack must be the
 		//key that you start iterating with.
@@ -196,18 +235,28 @@ static void LUA_SetSpriteData(lua_State *L, luasprite_t *luasprite) {
 			// Position -1: Value2 (pixel data in the column table we're in)
 			// Position -2: Key2 (current position in the colun table we're in)
 			// Position -3: Value1 (column table we're currently in)
-			// Position -4: Key1 (parent table key)
+			// Position -4: Key1 (key of the column table)
 			// Position -5: Original table
 			// ----------------------
 			
+			//Default to a transparent pixel
+			UINT8 pxval = TRANSPARENTPIXEL;
+			
+			//If the pixel in the current space is valid,
+			//then set pxval to it
+			if (lua_isnumber(L, -1) && lua_tointeger(L, -1) >= 0 && lua_tointeger(L, -1) < 256)
+				pxval = (UINT8)lua_tointeger(L, -1);
+			
+			//Set the spot in the luasprite's data array
+			//luasprite->data[lua_tointeger(L, -4)][lua_tointeger(L, -2)] = pxval;
+			luasprite->data[cpos] = pxval;
+			
+			//Pop the value (pixel data); leave the key
+			lua_pop(L, 1);
+			
+			//Increment the data strop position counter
+			cpos++;
 		}
-		
-		/* uses 'key' (at index -2) and 'value' (at index -1) */
-		//printf("%s - %s\n",
-		//lua_typename(L, lua_type(L, -2)),
-		//lua_typename(L, lua_type(L, -1)));
-		/* removes 'value'; keeps 'key' for next iteration */
-		//lua_pop(L, 1);
 	}
 }
 
@@ -269,5 +318,4 @@ int LUA_SpriteLib(lua_State *L)
 	return 0;
 }
 
-//#endif
 #endif
