@@ -49,6 +49,7 @@ static lua_CFunction liblist[] = {
 	LUA_ThinkerLib, // thinker_t
 	LUA_MapLib, // line_t, side_t, sector_t, subsector_t
 	LUA_HudLib, // HUD stuff
+	LUA_DrawSprite, // lua sprite exposure
 	NULL
 };
 
