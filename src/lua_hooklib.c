@@ -54,6 +54,7 @@ const char *const hookNames[hook_MAX+1] = {
 	"PlayerMsg",
 	"HurtMsg",
 	"PlayerSpawn",
+	"DrawSprite",
 	NULL
 };
 
@@ -1072,6 +1073,29 @@ void LUAh_NetArchiveHook(lua_CFunction archFunc)
 
 	lua_pop(gL, 1); // pop archFunc
 	// stack: tables
+}
+
+//Hook for drawn sprites
+void LUAh_DrawSprite(luasprite_t *luasprite) {
+	hook_p hookp;
+	if (!gL || !(hooksAvailable[hook_DrawSprite/8] & (1<<(hook_DrawSprite%8))))
+		return;
+
+	lua_settop(gL, 0);
+
+	for (hookp = roothook; hookp; hookp = hookp->next)
+		if (hookp->type == hook_DrawSprite)
+		{
+			if (lua_gettop(gL) == 0)
+				LUA_PushUserdata(gL, luasprite, META_LUASPRITE);
+			
+			lua_pushfstring(gL, FMT_HOOKID, hookp->id);
+			lua_gettable(gL, LUA_REGISTRYINDEX);
+			lua_pushvalue(gL, -2);
+			LUA_Call(gL, 1);
+		}
+
+	lua_pop(gL, 1);
 }
 
 #endif
