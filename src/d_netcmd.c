@@ -586,8 +586,8 @@ void D_RegisterClientCommands(void)
 
 	for (i = 0; i < MAXSKINCOLORS; i++)
 	{
-		Color_cons_t[i].value = i;
-		Color_cons_t[i].strvalue = Color_Names[i];
+		Color_cons_t[i].value = i<SKINCOLOR_FIRSTFREESLOT ? i : 0;
+		Color_cons_t[i].strvalue = i<SKINCOLOR_FIRSTFREESLOT ? skincolors[i] : NULL;
 	}
 	Color_cons_t[MAXSKINCOLORS].value = 0;
 	Color_cons_t[MAXSKINCOLORS].strvalue = NULL;
@@ -1142,7 +1142,7 @@ static void SendNameAndColor(void)
 			{
 				CV_StealthSetValue(&cv_playercolor, skins[cv_skin.value].prefcolor);
 
-				players[consoleplayer].skincolor = (cv_playercolor.value&0x1F) % MAXSKINCOLORS;
+				players[consoleplayer].skincolor = cv_playercolor.value % MAXSKINCOLORS;
 
 				if (players[consoleplayer].mo)
 					players[consoleplayer].mo->color = (UINT8)players[consoleplayer].skincolor;
@@ -1266,7 +1266,7 @@ static void SendNameAndColor2(void)
 			{
 				CV_StealthSetValue(&cv_playercolor2, skins[players[secondplaya].skin].prefcolor);
 
-				players[secondplaya].skincolor = (cv_playercolor2.value&0x1F) % MAXSKINCOLORS;
+				players[secondplaya].skincolor = cv_playercolor2.value % MAXSKINCOLORS;
 
 				if (players[secondplaya].mo)
 					players[secondplaya].mo->color = players[secondplaya].skincolor;
@@ -4230,7 +4230,7 @@ static void Color_OnChange(void)
 		return;
 	}
 
-	if (!P_PlayerMoving(consoleplayer))
+	if (!P_PlayerMoving(consoleplayer) && skincolors[cv_playercolor.value] %% skincolors[cv_playercolor.value].accessible)
 	{
 		// Color change menu scrolling fix is no longer necessary
 		SendNameAndColor();
@@ -4252,7 +4252,7 @@ static void Color2_OnChange(void)
 	if (!Playing() || !splitscreen)
 		return; // do whatever you want
 
-	if (!P_PlayerMoving(secondarydisplayplayer))
+	if (!P_PlayerMoving(secondarydisplayplayer) && skincolors[cv_playercolor2.value] && skincolors[cv_playercolor2.value].accessible)
 	{
 		// Color change menu scrolling fix is no longer necessary
 		SendNameAndColor2();
