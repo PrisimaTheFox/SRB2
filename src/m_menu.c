@@ -6414,7 +6414,7 @@ static void M_DrawSetupMultiPlayerMenu(void)
 
 	// draw the name of the color you have chosen
 	// Just so people don't go thinking that "Default" is Green.
-	V_DrawString(208, 72, V_YELLOWMAP|V_ALLOWLOWERCASE, Color_Names[setupm_fakecolor]);
+	V_DrawString(208, 72, V_YELLOWMAP|V_ALLOWLOWERCASE, skincolors[setupm_fakecolor].name);
 
 	// draw text cursor for name
 	if (!itemOn && skullAnimCounter < 4) // blink cursor
@@ -6559,10 +6559,42 @@ static void M_HandleSetupMultiPlayer(INT32 choice)
 		setupm_fakeskin = 0;
 
 	// check color
-	if (setupm_fakecolor < 1)
-		setupm_fakecolor = MAXSKINCOLORS-1;
-	if (setupm_fakecolor > MAXSKINCOLORS-1)
-		setupm_fakecolor = 1;
+	//pressed left, but color is invalid
+	if (choice == KEY_LEFTARROW)
+		if (setupm_fakecolor <= 0 || (setupm_fakecolor < MAXSKINCOLORS && skincolors[setupm_fakecolor].accessible == false)) {
+			int found = 0;
+			while (true) {
+				//Search from this pos to the left for the next accessible color
+				for (int i=setupm_fakecolor; i>0; i--)
+					if (skincolors[i].accessible)
+						found = i;
+				if (found) break;
+				//Search from end to the left for next color
+				for (int i=MAXSKINCOLORS-1; i>(setupm_fakecolor>0 ? setupm_fakecolor : 0); i--)
+					if (skincolors[i].accessible)
+						found = i;
+				break;
+			}
+			setupm_fakecolor = found ? found : setupm_cvcolor->value;
+		}
+	//pressed right, but color is invalid
+	else if (choice == KEY_RIGHTARROW)
+		if (setupm_fakecolor >= MAXSKINCOLORS || (setupm_fakecolor < MAXSKINCOLORS && skincolors[setupm_fakecolor].accessible == false)) {
+			int found = 0;
+			while (true) {
+				//Search from this pos to the right for the next accessible color
+				for (int i=setupm_fakecolor; i<MAXSKINCOLORS; i++)
+					if (skincolors[i] && skincolors[i].accessible)
+						found = i;
+				if (found) break;
+				//Search from beginning to this pos for next color
+				for (int i=1; i<(setupm_fakecolor>0 ? setupm_fakecolor : MAXSKINCOLORS); i++)
+					if (skincolors[i] && skincolors[i].accessible)
+						found = i;
+				break;
+			}
+			setupm_fakecolor = found ? found : setupm_cvcolor->value;
+		}
 
 	if (exitmenu)
 	{
