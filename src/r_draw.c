@@ -523,7 +523,7 @@ UINT8* R_GetTranslationColormap(INT32 skinnum, skincolors_t color, UINT8 flags)
 
 		// Allocate table for skin if necessary
 		if (!translationtablecache[skintableindex])
-			translationtablecache[skintableindex] = Z_Calloc(MAXTRANSLATIONS * sizeof(UINT8**), PU_STATIC, NULL);
+			translationtablecache[skintableindex] = Z_Calloc(MAXSKINCOLORS * sizeof(UINT8**), PU_STATIC, NULL);
 
 		// Get colormap
 		ret = translationtablecache[skintableindex][color];
@@ -558,7 +558,7 @@ void R_FlushTranslationColormapCache(void)
 
 	for (i = 0; i < (INT32)(sizeof(translationtablecache) / sizeof(translationtablecache[0])); i++)
 		if (translationtablecache[i])
-			memset(translationtablecache[i], 0, MAXTRANSLATIONS * sizeof(UINT8**));
+			memset(translationtablecache[i], 0, MAXSKINCOLORS * sizeof(UINT8**));
 }
 
 UINT8 R_GetColorByName(const char *name)
