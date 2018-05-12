@@ -268,7 +268,7 @@ static void R_GenerateTranslationColormap(UINT8 *dest_colormap, INT32 skinnum, U
 
 	// Build the translated ramp
 	for (i=0; i<COLORRAMPSIZE; i++)
-		dest_colormap[starttranscolor + i] = (UINT8)skincolors[color].ramp[i]
+		dest_colormap[starttranscolor + i] = skincolors[(UINT8)color].ramp[i];
 }
 
 
