@@ -446,6 +446,7 @@ enum
 	ARCH_TABLE,
 
 	ARCH_MOBJINFO,
+	ARCH_SKINCOLOR,
 	ARCH_STATE,
 	ARCH_MOBJ,
 	ARCH_PLAYER,
@@ -465,6 +466,7 @@ static const struct {
 	UINT8 arch;
 } meta2arch[] = {
 	{META_MOBJINFO, ARCH_MOBJINFO},
+	{META_SKINCOLOR, ARCH_SKINCOLOR},
 	{META_STATE,    ARCH_STATE},
 	{META_MOBJ,     ARCH_MOBJ},
 	{META_PLAYER,   ARCH_PLAYER},
@@ -567,6 +569,13 @@ static UINT8 ArchiveValue(int TABLESINDEX, int myindex)
 			mobjinfo_t *info = *((mobjinfo_t **)lua_touserdata(gL, myindex));
 			WRITEUINT8(save_p, ARCH_MOBJINFO);
 			WRITEUINT16(save_p, info - mobjinfo);
+			break;
+		}
+		case ARCH_SKINCOLOR:
+		{
+			skincolor_t *info = *((skincolor_t **)lua_touserdata(gL, myindex));
+			WRITEUINT8(save_p, ARCH_SKINCOLOR);
+			WRITEUINT16(save_p, info - skincolors);
 			break;
 		}
 		case ARCH_STATE:
@@ -822,6 +831,9 @@ static UINT8 UnArchiveValue(int TABLESINDEX)
 	}
 	case ARCH_MOBJINFO:
 		LUA_PushUserdata(gL, &mobjinfo[READUINT16(save_p)], META_MOBJINFO);
+		break;
+	case ARCH_SKINCOLOR:
+		LUA_PushUserdata(gL, &skincolors[READUINT16(save_p)], META_SKINCOLOR);
 		break;
 	case ARCH_STATE:
 		LUA_PushUserdata(gL, &states[READUINT16(save_p)], META_STATE);
