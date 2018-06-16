@@ -18,6 +18,8 @@
 #include "doomstat.h"
 #include "d_event.h"
 
+extern skincolor_t skincolors[MAXSKINCOLORS];
+
 extern char gamedatafilename[64];
 extern char timeattackfolder[64];
 extern char customversionstring[32];
