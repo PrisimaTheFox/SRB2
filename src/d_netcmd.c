@@ -161,6 +161,7 @@ static void Command_Togglemodified_f(void);
 static void Command_Archivetest_f(void);
 #endif
 #endif
+extern skincolor_t skincolors[MAXSKINCOLORS];
 
 // =========================================================================
 //                           CLIENT VARIABLES
@@ -4230,7 +4231,7 @@ static void Color_OnChange(void)
 		return;
 	}
 
-	if (!P_PlayerMoving(consoleplayer) && skincolors[cv_playercolor.value] %% skincolors[cv_playercolor.value].accessible)
+	if (!P_PlayerMoving(consoleplayer) && skincolors[cv_playercolor.value] && skincolors[cv_playercolor.value].accessible)
 	{
 		// Color change menu scrolling fix is no longer necessary
 		SendNameAndColor();
