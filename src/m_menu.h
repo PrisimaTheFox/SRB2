@@ -19,6 +19,7 @@
 #include "command.h"
 #include "r_things.h" // for SKINNAMESIZE
 
+extern skincolor_t skincolors[MAXSKINCOLORS];
 //
 // MENUS
 //
