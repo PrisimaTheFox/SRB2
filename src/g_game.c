@@ -46,8 +46,6 @@
 #include "m_cond.h" // condition sets
 #include "md5.h" // demo checksums
 
-extern skincolor_t skincolors[MAXSKINCOLORS];
-
 gameaction_t gameaction;
 gamestate_t gamestate = GS_NULL;
 UINT8 ultimatemode = false;
