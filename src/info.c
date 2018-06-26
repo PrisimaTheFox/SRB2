@@ -13866,7 +13866,8 @@ void P_BackupTables(void)
 	sprnamesbackup = Z_Malloc(sizeof(sprnames), PU_STATIC, NULL);
 	statesbackup = Z_Malloc(sizeof(states), PU_STATIC, NULL);
 	mobjinfobackup = Z_Malloc(sizeof(mobjinfo), PU_STATIC, NULL);
-
+	skincolorsbackup = Z_Malloc(sizeof(skincolors), PU_STATIC, NULL);
+	
 	// Sprite names
 	sprnamesbackupsize = lzf_compress(sprnames, sizeof(sprnames), sprnamesbackup, sizeof(sprnames));
 	if (sprnamesbackupsize > 0)
