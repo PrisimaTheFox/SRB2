@@ -33,6 +33,9 @@
 #if defined(_MSC_VER)
 #pragma pack(1)
 #endif
+
+extern skincolor_t skincolors[MAXSKINCOLORS];
+
 typedef struct
 {
 	UINT32 magic;
