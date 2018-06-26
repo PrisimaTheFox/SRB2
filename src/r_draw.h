@@ -16,8 +16,6 @@
 
 #include "r_defs.h"
 
-extern skincolor_t skincolors[MAXSKINCOLORS];
-
 // -------------------------------
 // COMMON STUFF FOR 8bpp AND 16bpp
 // -------------------------------
