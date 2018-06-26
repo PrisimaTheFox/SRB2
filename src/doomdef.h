@@ -297,6 +297,8 @@ typedef enum
 
 #define NUMCOLORFREESLOTS (SKINCOLOR_LASTFREESLOT-SKINCOLOR_FIRSTFREESLOT)+1
 
+extern skincolor_t skincolors[MAXSKINCOLORS];
+
 // State updates, number of tics / second.
 // NOTE: used to setup the timer rate, see I_StartupTimer().
 #define TICRATE 35
