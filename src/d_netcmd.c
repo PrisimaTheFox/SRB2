@@ -161,7 +161,6 @@ static void Command_Togglemodified_f(void);
 static void Command_Archivetest_f(void);
 #endif
 #endif
-extern skincolor_t skincolors[MAXSKINCOLORS];
 
 // =========================================================================
 //                           CLIENT VARIABLES
