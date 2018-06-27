@@ -6825,8 +6825,6 @@ static const char *const ML_LIST[16] = {
 };
 #endif
 
-// This DOES differ from r_draw's Color_Names, unfortunately.
-// Also includes Super colors
 static const char *COLOR_ENUMS[] = {
 	"NONE",     	// SKINCOLOR_NONE
 	"WHITE",    	// SKINCOLOR_WHITE
