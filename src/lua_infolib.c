@@ -947,10 +947,9 @@ static int lib_setSkinColor(lua_State *L)
 		else
 			str = luaL_checkstring(L, 2);
 
-		if (i == 1 || (str && fastcmp(str,"name"))) {
-			Color_cons_t[i].strvalue = luaL_checkstring(L, 3);
+		if (i == 1 || (str && fastcmp(str,"name")))
 			strlcpy(info->name, luaL_checkstring(L, 3), COLORNAMESIZE);
-		} else if (i == 2 || (str && fastcmp(str,"ramp"))) {
+		else if (i == 2 || (str && fastcmp(str,"ramp"))) {
 			//Must be a Lua table
 			if (!lua_istable(L, 3))
 				return luaL_error(L, LUA_QL("skincolor_t") " field ramp must be a table.");
@@ -1011,16 +1010,9 @@ static int skincolor_set(lua_State *L)
 	I_Assert(info != NULL);
 	I_Assert(info >= skincolors);
 	
-	if (fastcmp(field,"name")) {
-		const char *n = luaL_checkstring(L, 3);
-		for (int i=0; i<MAXSKINCOLORS; i++) {
-			if (!stricmp(skincolors[i].name,n)) {
-				Color_cons_t[i].strvalue = n;
-				break;
-			}
-		}
+	if (fastcmp(field,"name"))
 		strlcpy(info->name, luaL_checkstring(L, 3), COLORNAMESIZE);
-	} else if (fastcmp(field,"ramp")) {
+	else if (fastcmp(field,"ramp")) {
 		//Must be a Lua table
 		if (!lua_istable(L, 3))
 			return luaL_error(L, LUA_QL("skincolor_t") " field ramp must be a table.");
