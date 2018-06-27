@@ -584,10 +584,9 @@ void D_RegisterClientCommands(void)
 {
 	INT32 i;
 
-	for (i = 0; i < MAXSKINCOLORS; i++)
-	{
-		Color_cons_t[i].value = i<SKINCOLOR_FIRSTFREESLOT ? i : 0;
-		Color_cons_t[i].strvalue = i<SKINCOLOR_FIRSTFREESLOT ? skincolors[i].name : NULL;
+	for (i = 0; i < MAXSKINCOLORS; i++) {
+		Color_cons_t[i].value = i;
+		Color_cons_t[i].strvalue = skincolors[i].name;
 	}
 	Color_cons_t[MAXSKINCOLORS].value = 0;
 	Color_cons_t[MAXSKINCOLORS].strvalue = NULL;
