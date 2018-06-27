@@ -1051,7 +1051,7 @@ static int colorramp_get(lua_State *L)
 	UINT8 *colorramp = *((UINT8 **)luaL_checkudata(L, 1, META_COLORRAMP));
 	UINT32 n = luaL_checkinteger(L, 2);
 	if (n >= COLORRAMPSIZE || n<0)
-		return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' index %d out of range (0 - %d)", n, COLORRAMPSIZE);
+		return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' index %d out of range (0 - %d)", n, COLORRAMPSIZE-1);
 	lua_pushinteger(L, colorramp[n]);
 	return 1;
 }
@@ -1063,7 +1063,7 @@ static int colorramp_set(lua_State *L)
 	UINT32 n = luaL_checkinteger(L, 2);
 	UINT8 i = (UINT8)luaL_checkinteger(L, 3);
 	if (n >= COLORRAMPSIZE || n<0)
-		return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' index %d out of range (0 - %d)", n, COLORRAMPSIZE);
+		return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' index %d out of range (0 - %d)", n, COLORRAMPSIZE-1);
 	if (hud_running)
 		return luaL_error(L, "Do not alter skincolor_t in HUD rendering code!");
 	colorramp[n] = i;
