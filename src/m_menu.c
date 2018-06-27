@@ -6560,42 +6560,51 @@ static void M_HandleSetupMultiPlayer(INT32 choice)
 
 	// check color
 	//pressed left, but color is invalid
-	if (choice == KEY_LEFTARROW)
+	if (choice == KEY_LEFTARROW) {
 		if (setupm_fakecolor <= 0 || (setupm_fakecolor < MAXSKINCOLORS && skincolors[setupm_fakecolor].accessible == false)) {
 			int found = 0;
 			while (true) {
 				//Search from this pos to the left for the next accessible color
 				for (int i=setupm_fakecolor; i>0; i--)
-					if (skincolors[i].accessible)
+					if (skincolors[i].accessible) {
 						found = i;
+						break;
+					}
 				if (found) break;
 				//Search from end to the left for next color
 				for (int i=MAXSKINCOLORS-1; i>(setupm_fakecolor>0 ? setupm_fakecolor : 0); i--)
-					if (skincolors[i].accessible)
+					if (skincolors[i].accessible) {
 						found = i;
+						break;
+					}
 				break;
 			}
 			setupm_fakecolor = found ? found : setupm_cvcolor->value;
 		}
 	//pressed right, but color is invalid
-	else if (choice == KEY_RIGHTARROW)
+	} else if (choice == KEY_RIGHTARROW) {
 		if (setupm_fakecolor >= MAXSKINCOLORS || (setupm_fakecolor < MAXSKINCOLORS && skincolors[setupm_fakecolor].accessible == false)) {
 			int found = 0;
 			while (true) {
 				//Search from this pos to the right for the next accessible color
 				for (int i=setupm_fakecolor; i<MAXSKINCOLORS; i++)
-					if (skincolors[i].name[0] != '\0' && skincolors[i].accessible)
+					if (skincolors[i].name[0] != '\0' && skincolors[i].accessible) {
 						found = i;
+						break;
+					}
 				if (found) break;
 				//Search from beginning to this pos for next color
 				for (int i=1; i<(setupm_fakecolor>0 ? setupm_fakecolor : MAXSKINCOLORS); i++)
-					if (skincolors[i].name[0] != '\0' && skincolors[i].accessible)
+					if (skincolors[i].name[0] != '\0' && skincolors[i].accessible) {
 						found = i;
+						break;
+					}
 				break;
 			}
 			setupm_fakecolor = found ? found : setupm_cvcolor->value;
 		}
-
+	}
+	
 	if (exitmenu)
 	{
 		if (currentMenu->prevMenu)
