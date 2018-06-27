@@ -25,6 +25,7 @@
 
 #include "console.h"
 extern CV_PossibleValue_t Color_cons_t[MAXSKINCOLORS+1];
+extern void R_FlushTranslationColormapCache(void);
 
 boolean LUA_CallAction(const char *action, mobj_t *actor);
 state_t *astate;
@@ -954,6 +955,7 @@ static int lib_setSkinColor(lua_State *L)
 			if (!lua_istable(L, 3))
 				return luaL_error(L, LUA_QL("skincolor_t") " field ramp must be a table.");
 			setRamp(L, info);
+			R_FlushTranslationColormapCache();
 		} else if (i == 3 || (str && fastcmp(str,"glcolor")))
 			info->glcolor = (UINT8)luaL_checkinteger(L, 3);
 		else if (i == 4 || (str && fastcmp(str,"opposite_color")))
@@ -1017,6 +1019,7 @@ static int skincolor_set(lua_State *L)
 		if (!lua_istable(L, 3))
 			return luaL_error(L, LUA_QL("skincolor_t") " field ramp must be a table.");
 		setRamp(L, info);
+		R_FlushTranslationColormapCache();
 	} else if (fastcmp(field,"glcolor"))
 		info->glcolor = (UINT8)luaL_checkinteger(L, 3);
 	else if (fastcmp(field,"opposite_color"))
@@ -1064,6 +1067,7 @@ static int colorramp_set(lua_State *L)
 	if (hud_running)
 		return luaL_error(L, "Do not alter skincolor_t in HUD rendering code!");
 	colorramp[n] = i;
+	R_FlushTranslationColormapCache();
 	return 0;
 }
 
