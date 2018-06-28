@@ -227,7 +227,7 @@ extern FILE *logstream;
 #define MAXPLAYERNAME 21
 
 #define COLORRAMPSIZE 16
-#define COLORNAMESIZE 17
+#define COLORNAMESIZE 14
 
 typedef struct skincolor_s
 {
