@@ -961,7 +961,7 @@ static void HWR_CreateBlendedTexture(GLPatch_t *gpatch, GLPatch_t *blendgpatch, 
 	image = gpatch->mipmap.grInfo.data;
 	blendimage = blendgpatch->mipmap.grInfo.data;
 
-	blendcolor = V_GetColor(skincolors[color].glcolor);
+	blendcolor = V_GetColor(skincolors[color].md2color);
 
 	while (size--)
 	{
