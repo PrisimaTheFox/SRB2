@@ -6588,14 +6588,14 @@ static void M_HandleSetupMultiPlayer(INT32 choice)
 			while (true) {
 				//Search from this pos to the right for the next accessible color
 				for (int i=setupm_fakecolor; i<MAXSKINCOLORS; i++)
-					if (skincolors[i].name[0] != '\0' && skincolors[i].accessible) {
+					if (skincolors[i].accessible) {
 						found = i;
 						break;
 					}
 				if (found) break;
 				//Search from beginning to this pos for next color
 				for (int i=1; i<(setupm_fakecolor>0 ? setupm_fakecolor : MAXSKINCOLORS); i++)
-					if (skincolors[i].name[0] != '\0' && skincolors[i].accessible) {
+					if (skincolors[i].accessible) {
 						found = i;
 						break;
 					}
