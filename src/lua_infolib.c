@@ -27,6 +27,18 @@
 extern CV_PossibleValue_t Color_cons_t[MAXSKINCOLORS+1];
 extern void R_FlushTranslationColormapCache(void);
 
+LUALIB_API int luaL_warn (lua_State *L, const char *fmt, ...) {
+  va_list argp;
+  va_start(argp, fmt);
+  luaL_where(L, 1);
+  lua_pushvfstring(L, fmt, argp);
+  va_end(argp);
+  lua_concat(L, 2);
+  CONS_Alert(CONS_WARNING,"%s\n",lua_tostring(L,-1));
+  lua_pop(L,1);
+  return 0;
+}
+
 boolean LUA_CallAction(const char *action, mobj_t *actor);
 state_t *astate;
 
@@ -898,7 +910,7 @@ static void setRamp(lua_State *L, skincolor_t* c) {
 	
 	for (int i=0; i<COLORRAMPSIZE; i++) {
 		if (lua_objlen(L,-2)<COLORRAMPSIZE) {
-			luaL_error(L, LUA_QL("skincolor_t") " field ramp must be %d entries long; got %d.", COLORRAMPSIZE, lua_objlen(L,-2));
+			luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' must be %d entries long; got %d.", COLORRAMPSIZE, lua_objlen(L,-2));
 			break;
 		}
 		
@@ -953,12 +965,17 @@ static int lib_setSkinColor(lua_State *L)
 		else
 			str = luaL_checkstring(L, 2);
 
-		if (i == 1 || (str && fastcmp(str,"name")))
-			strlcpy(info->name, luaL_checkstring(L, 3), COLORNAMESIZE);
-		else if (i == 2 || (str && fastcmp(str,"ramp"))) {
+		if (i == 1 || (str && fastcmp(str,"name"))) {
+			const char* n = luaL_checkstring(L, 3);
+			if (strchr(n, ' ') != NULL)
+				luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') contains spaces.", n);
+			strlcpy(info->name, n, COLORNAMESIZE);
+			if (strlen(n) > COLORNAMESIZE)
+				luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') longer than %d chars; clipped to %s.", n, COLORRAMPSIZE-1, info->name);
+		} else if (i == 2 || (str && fastcmp(str,"ramp"))) {
 			//Must be a Lua table
 			if (!lua_istable(L, 3))
-				return luaL_error(L, LUA_QL("skincolor_t") " field ramp must be a table.");
+				return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' must be a table.");
 			setRamp(L, info);
 			R_FlushTranslationColormapCache();
 		} else if (i == 3 || (str && fastcmp(str,"md2color")))
@@ -1017,12 +1034,18 @@ static int skincolor_set(lua_State *L)
 	I_Assert(info != NULL);
 	I_Assert(info >= skincolors);
 	
-	if (fastcmp(field,"name"))
-		strlcpy(info->name, luaL_checkstring(L, 3), COLORNAMESIZE);
-	else if (fastcmp(field,"ramp")) {
+	if (fastcmp(field,"name")) {
+		const char* n = luaL_checkstring(L, 3);
+		if (strchr(n, ' ') != NULL)
+			luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') contains spaces.", n);
+		strlcpy(info->name, n, COLORNAMESIZE);
+		if (strlen(n) > COLORNAMESIZE)
+			luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') longer than %d chars; clipped to %s.", n, COLORRAMPSIZE-1, info->name);
+		strlcpy(info->name, n, COLORNAMESIZE);
+	} else if (fastcmp(field,"ramp")) {
 		//Must be a Lua table
 		if (!lua_istable(L, 3))
-				return luaL_error(L, LUA_QL("skincolor_t") " field ramp must be a table.");
+				return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' must be a table.");
 		setRamp(L, info);
 		R_FlushTranslationColormapCache();
 	} else if (fastcmp(field,"md2color"))
