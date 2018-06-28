@@ -969,9 +969,9 @@ static int lib_setSkinColor(lua_State *L)
 			const char* n = luaL_checkstring(L, 3);
 			if (strchr(n, ' ') != NULL)
 				luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') contains spaces.", n);
-			strlcpy(info->name, n, COLORNAMESIZE);
+			strlcpy(info->name, n, COLORNAMESIZE+1);
 			if (strlen(n) > COLORNAMESIZE)
-				luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') longer than %d chars; clipped to %s.", n, COLORRAMPSIZE-1, info->name);
+				luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') longer than %d chars; clipped to %s.", n, COLORNAMESIZE, info->name);
 		} else if (i == 2 || (str && fastcmp(str,"ramp"))) {
 			//Must be a Lua table
 			if (!lua_istable(L, 3))
@@ -1038,10 +1038,9 @@ static int skincolor_set(lua_State *L)
 		const char* n = luaL_checkstring(L, 3);
 		if (strchr(n, ' ') != NULL)
 			luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') contains spaces.", n);
-		strlcpy(info->name, n, COLORNAMESIZE);
+		strlcpy(info->name, n, COLORNAMESIZE+1);
 		if (strlen(n) > COLORNAMESIZE)
-			luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') longer than %d chars; clipped to %s.", n, COLORRAMPSIZE-1, info->name);
-		strlcpy(info->name, n, COLORNAMESIZE);
+			luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') longer than %d chars; clipped to %s.", n, COLORNAMESIZE, info->name);
 	} else if (fastcmp(field,"ramp")) {
 		//Must be a Lua table
 		if (!lua_istable(L, 3))
