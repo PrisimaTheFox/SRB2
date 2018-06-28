@@ -233,9 +233,9 @@ typedef struct skincolor_s
 {
 	char name[COLORNAMESIZE+1];	//Skincolor name
 	UINT8 ramp[COLORRAMPSIZE];	//Colormap ramp
-	UINT8 glcolor;		//Color used in OpenGL
-	UINT8 opposite_color;	//Color used on signpost
-	UINT8 opposite_shade;	//Signpost color shade
+	UINT8 md2color;			//Color used for MD2s
+	UINT8 invcolor;			//Signpost color
+	UINT8 invshade;			//Signpost color shade
 	boolean accessible;	//Can it be accessed with the color command
 } skincolor_t;
 
