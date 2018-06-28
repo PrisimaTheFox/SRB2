@@ -961,12 +961,12 @@ static int lib_setSkinColor(lua_State *L)
 				return luaL_error(L, LUA_QL("skincolor_t") " field ramp must be a table.");
 			setRamp(L, info);
 			R_FlushTranslationColormapCache();
-		} else if (i == 3 || (str && fastcmp(str,"glcolor")))
-			info->glcolor = (UINT8)luaL_checkinteger(L, 3);
-		else if (i == 4 || (str && fastcmp(str,"opposite_color")))
-			info->opposite_color = (UINT8)luaL_checkinteger(L, 3);
-		else if (i == 4 || (str && fastcmp(str,"opposite_shade")))
-			info->opposite_shade = (UINT8)luaL_checkinteger(L, 3);
+		} else if (i == 3 || (str && fastcmp(str,"md2color")))
+			info->md2color = (UINT8)luaL_checkinteger(L, 3);
+		else if (i == 4 || (str && fastcmp(str,"invcolor")))
+			info->invcolor = (UINT8)luaL_checkinteger(L, 3);
+		else if (i == 4 || (str && fastcmp(str,"invshade")))
+			info->invshade = (UINT8)luaL_checkinteger(L, 3);
 		else if (i == 5 || (str && fastcmp(str,"accessible"))) {
 			info->accessible = lua_isboolean(L,3) ? lua_toboolean(L, 3) : true;
 		}
@@ -995,12 +995,12 @@ static int skincolor_get(lua_State *L)
 		lua_pushlstring(L, info->name, COLORNAMESIZE);
 	else if (fastcmp(field,"ramp"))
 		LUA_PushUserdata(L, info->ramp, META_COLORRAMP);
-	else if (fastcmp(field,"glcolor"))
-		lua_pushinteger(L, info->glcolor);
-	else if (fastcmp(field,"opposite_color"))
-		lua_pushinteger(L, info->opposite_color);
-	else if (fastcmp(field,"opposite_shade"))
-		lua_pushinteger(L, info->opposite_shade);
+	else if (fastcmp(field,"md2color"))
+		lua_pushinteger(L, info->md2color);
+	else if (fastcmp(field,"invcolor"))
+		lua_pushinteger(L, info->invcolor);
+	else if (fastcmp(field,"invshade"))
+		lua_pushinteger(L, info->invshade);
 	else if (fastcmp(field,"accessible"))
 		lua_pushinteger(L, info->accessible);
 	else
@@ -1022,15 +1022,15 @@ static int skincolor_set(lua_State *L)
 	else if (fastcmp(field,"ramp")) {
 		//Must be a Lua table
 		if (!lua_istable(L, 3))
-			return luaL_error(L, LUA_QL("skincolor_t") " field ramp must be a table.");
+				return luaL_error(L, LUA_QL("skincolor_t") " field ramp must be a table.");
 		setRamp(L, info);
 		R_FlushTranslationColormapCache();
-	} else if (fastcmp(field,"glcolor"))
-		info->glcolor = (UINT8)luaL_checkinteger(L, 3);
-	else if (fastcmp(field,"opposite_color"))
-		info->opposite_color = (UINT8)luaL_checkinteger(L, 3);
-	else if (fastcmp(field,"opposite_shade"))
-		info->opposite_shade = (UINT8)luaL_checkinteger(L, 3);
+	} else if (fastcmp(field,"md2color"))
+		info->md2color = (UINT8)luaL_checkinteger(L, 3);
+	else if (fastcmp(field,"invcolor"))
+		info->invcolor = (UINT8)luaL_checkinteger(L, 3);
+	else if (fastcmp(field,"invshade"))
+		info->invshade = (UINT8)luaL_checkinteger(L, 3);
 	else if (fastcmp(field,"accessible"))
 		info->accessible = lua_isboolean(L,3) ? lua_toboolean(L, 3) : true;
 	else
