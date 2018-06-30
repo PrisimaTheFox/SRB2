@@ -6688,9 +6688,10 @@ static boolean M_QuitMultiPlayerMenu(void)
 			setupm_name[l] =0;
 		COM_BufAddText (va("%s \"%s\"\n",setupm_cvname->name,setupm_name));
 	}
-	// you know what? always putting these in the buffer won't hurt anything.
 	COM_BufAddText (va("%s \"%s\"\n",setupm_cvskin->name,skins[setupm_fakeskin].name));
-	COM_BufAddText (va("%s %d\n",setupm_cvcolor->name,setupm_fakecolor));
+	// send color if changed
+	if (strcmp(setupm_fakecolor, setupm_cvcolor->string))
+		COM_BufAddText (va("%s %d\n",setupm_cvcolor->name,setupm_fakecolor));
 	return true;
 }
 
