@@ -1332,8 +1332,8 @@ static void Got_NameAndColor(UINT8 **cp, INT32 playernum)
 				kick = true;
 		}
 
-		// don't allow color "none"
-		if (!p->skincolor)
+		// don't allow color "none" or inaccessible colors
+		if (!p->skincolor || skincolors[p->skincolor].accessible == false)
 			kick = true;
 
 		if (kick)
