@@ -6690,7 +6690,7 @@ static boolean M_QuitMultiPlayerMenu(void)
 	}
 	COM_BufAddText (va("%s \"%s\"\n",setupm_cvskin->name,skins[setupm_fakeskin].name));
 	// send color if changed
-	if (strcmp(setupm_fakecolor, setupm_cvcolor->string))
+	if (setupm_fakecolor != setupm_cvcolor->value)
 		COM_BufAddText (va("%s %d\n",setupm_cvcolor->name,setupm_fakecolor));
 	return true;
 }
