@@ -973,10 +973,13 @@ static int lib_setSkinColor(lua_State *L)
 			if (strlen(n) > COLORNAMESIZE)
 				luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') longer than %d chars; clipped to %s.", n, COLORNAMESIZE, info->name);
 		} else if (i == 2 || (str && fastcmp(str,"ramp"))) {
-			//Must be a Lua table
-			if (!lua_istable(L, 3))
-				return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' must be a table.");
-			setRamp(L, info);
+			if (!lua_istable(L, 3) && luaL_checkudata(L, 3, META_COLORRAMP) == NULL)
+				return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' must be a table or array.");
+			else if (lua_istable(L, 3))
+				setRamp(L, info);
+			else
+				for (int i=0; i<COLORRAMPSIZE; i++)
+					info->ramp[i] = (*((UINT8 **)luaL_checkudata(L, 3, META_COLORRAMP)))[i];
 			R_FlushTranslationColormapCache();
 		} else if (i == 3 || (str && fastcmp(str,"md2color")))
 			info->md2color = (UINT8)luaL_checkinteger(L, 3);
@@ -1009,7 +1012,7 @@ static int skincolor_get(lua_State *L)
 	I_Assert(info >= skincolors);
 
 	if (fastcmp(field,"name"))
-		lua_pushlstring(L, info->name, COLORNAMESIZE);
+		lua_pushstring(L, info->name);
 	else if (fastcmp(field,"ramp"))
 		LUA_PushUserdata(L, info->ramp, META_COLORRAMP);
 	else if (fastcmp(field,"md2color"))
@@ -1042,10 +1045,13 @@ static int skincolor_set(lua_State *L)
 		if (strlen(n) > COLORNAMESIZE)
 			luaL_warn(L, LUA_QL("skincolor_t") " field 'name' ('%s') longer than %d chars; clipped to %s.", n, COLORNAMESIZE, info->name);
 	} else if (fastcmp(field,"ramp")) {
-		//Must be a Lua table
-		if (!lua_istable(L, 3))
-				return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' must be a table.");
-		setRamp(L, info);
+		if (!lua_istable(L, 3) && luaL_checkudata(L, 3, META_COLORRAMP) == NULL)
+			return luaL_error(L, LUA_QL("skincolor_t") " field 'ramp' must be a table or array.");
+		else if (lua_istable(L, 3))
+			setRamp(L, info);
+		else
+			for (int i=0; i<COLORRAMPSIZE; i++)
+				info->ramp[i] = (*((UINT8 **)luaL_checkudata(L, 3, META_COLORRAMP)))[i];
 		R_FlushTranslationColormapCache();
 	} else if (fastcmp(field,"md2color"))
 		info->md2color = (UINT8)luaL_checkinteger(L, 3);
