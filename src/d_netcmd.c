@@ -4220,25 +4220,23 @@ static void Skin2_OnChange(void)
   */
 static void Color_OnChange(void)
 {
+	if (skincolors[consoleplayer].accessible != true)
+		return;
+	
 	if (!Playing())
 		return; // do whatever you want
-
+	
 	if (!(cv_debug || devparm) && !(multiplayer || netgame)) // In single player.
 	{
 		CV_StealthSet(&cv_skin, skins[players[consoleplayer].skin].name);
 		return;
 	}
 
-	if (!P_PlayerMoving(consoleplayer) && (skincolors[cv_playercolor.value].name[0] != '\0') && skincolors[cv_playercolor.value].accessible)
-	{
+	if (!P_PlayerMoving(consoleplayer))
 		// Color change menu scrolling fix is no longer necessary
 		SendNameAndColor();
-	}
 	else
-	{
-		CV_StealthSetValue(&cv_playercolor,
-			players[consoleplayer].skincolor);
-	}
+		CV_StealthSetValue(&cv_playercolor, players[consoleplayer].skincolor);
 }
 
 /** Sends a color change for the secondary splitscreen player, unless that
@@ -4248,19 +4246,17 @@ static void Color_OnChange(void)
   */
 static void Color2_OnChange(void)
 {
+	if (skincolors[secondarydisplayplayer].accessible != true)
+		return;
+	
 	if (!Playing() || !splitscreen)
 		return; // do whatever you want
 
 	if (!P_PlayerMoving(secondarydisplayplayer) && (skincolors[cv_playercolor2.value].name[0] != '\0') && skincolors[cv_playercolor2.value].accessible)
-	{
 		// Color change menu scrolling fix is no longer necessary
 		SendNameAndColor2();
-	}
 	else
-	{
-		CV_StealthSetValue(&cv_playercolor2,
-			players[secondarydisplayplayer].skincolor);
-	}
+		CV_StealthSetValue(&cv_playercolor2, players[secondarydisplayplayer].skincolor);
 }
 
 /** Displays the result of the chat being muted or unmuted.
