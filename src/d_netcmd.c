@@ -4229,7 +4229,7 @@ static void Color_OnChange(void)
 		return;
 	}
 
-	if (!P_PlayerMoving(consoleplayer) || skincolors[players[consoleplayer].skincolor].accessible != true)
+	if (!P_PlayerMoving(consoleplayer) && skincolors[players[consoleplayer].skincolor].accessible == true)
 		// Color change menu scrolling fix is no longer necessary
 		SendNameAndColor();
 	else
@@ -4246,7 +4246,7 @@ static void Color2_OnChange(void)
 	if (!Playing() || !splitscreen)
 		return; // do whatever you want
 
-	if (!P_PlayerMoving(secondarydisplayplayer) || skincolors[players[secondarydisplayplayer].skincolor].accessible != true)
+	if (!P_PlayerMoving(secondarydisplayplayer) && skincolors[players[secondarydisplayplayer].skincolor].accessible == true)
 		// Color change menu scrolling fix is no longer necessary
 		SendNameAndColor2();
 	else
