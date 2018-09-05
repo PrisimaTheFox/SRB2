@@ -5216,13 +5216,11 @@ static void P_AddOldAirbob(sector_t *sec, line_t *sourceline, boolean noadjust)
 	airbob->vars[2] = FRACUNIT;
 
 	if (noadjust)
-	{
 		airbob->vars[7] = airbob->sector->ceilingheight-16*FRACUNIT;
-		airbob->vars[6] = airbob->vars[7]
-			- (sec->ceilingheight - sec->floorheight);
-	}
 	else
 		airbob->vars[7] = airbob->sector->ceilingheight - P_AproxDistance(sourceline->dx, sourceline->dy);
+	airbob->vars[6] = airbob->vars[7]
+		- (sec->ceilingheight - sec->floorheight);
 
 	airbob->vars[3] = airbob->vars[2];
 
@@ -6630,6 +6628,7 @@ void T_Scroll(scroll_t *s)
 		line_t *line;
 		size_t i;
 		INT32 sect;
+		ffloor_t *rover;
 
 		case sc_side: // scroll wall texture
 			side = sides + s->affectee;
@@ -6670,6 +6669,19 @@ void T_Scroll(scroll_t *s)
 				{
 					sector_t *psec;
 					psec = sectors + sect;
+
+					// Find the FOF corresponding to the control linedef
+					for (rover = psec->ffloors; rover; rover = rover->next)
+					{
+						if (rover->master == sec->lines[i])
+							break;
+					}
+
+					if (!rover) // This should be impossible, but don't complain if it is the case somehow
+						continue;
+
+					if (!(rover->flags & FF_EXISTS)) // If the FOF does not "exist", we pretend that nobody's there
+						continue;
 
 					for (node = psec->touching_thinglist; node; node = node->m_thinglist_next)
 					{
@@ -6733,6 +6745,19 @@ void T_Scroll(scroll_t *s)
 				{
 					sector_t *psec;
 					psec = sectors + sect;
+
+					// Find the FOF corresponding to the control linedef
+					for (rover = psec->ffloors; rover; rover = rover->next)
+					{
+						if (rover->master == sec->lines[i])
+							break;
+					}
+
+					if (!rover) // This should be impossible, but don't complain if it is the case somehow
+						continue;
+
+					if (!(rover->flags & FF_EXISTS)) // If the FOF does not "exist", we pretend that nobody's there
+						continue;
 
 					for (node = psec->touching_thinglist; node; node = node->m_thinglist_next)
 					{
